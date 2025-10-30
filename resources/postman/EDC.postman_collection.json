@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "b85c2123-1f49-47ed-a1ce-336b584086f7",
+		"name": "EDC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10886360"
+	},
+	"item": [
+		{
+			"name": "Create-Asset-Provider",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\": \"assetId\",\r\n  \"properties\": {\r\n    \"name\": \"product description\",\r\n    \"contenttype\": \"application/json\"\r\n  },\r\n  \"dataAddress\": {\r\n    \"type\": \"HttpData\",\r\n    \"name\": \"Test asset\",\r\n    \"baseUrl\": \"https://jsonplaceholder.typicode.com/users\",\r\n    \"proxyPath\": \"true\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{provider-url}}/management/v3/assets",
+					"host": [
+						"{{provider-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"assets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create-Policy-Provider",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\r\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\r\n  },\r\n  \"@id\": \"aPolicy\",\r\n  \"policy\": {\r\n    \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\r\n    \"@type\": \"Set\",\r\n    \"permission\": [],\r\n    \"prohibition\": [],\r\n    \"obligation\": []\r\n  }\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{provider-url}}/management/v3/policydefinitions",
+					"host": [
+						"{{provider-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"policydefinitions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create-Contract-Provider",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@id\": \"1\",\r\n  \"accessPolicyId\": \"aPolicy\",\r\n  \"contractPolicyId\": \"aPolicy\",\r\n  \"assetsSelector\": []\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "{{provider-url}}/management/v3/contractdefinitions",
+					"host": [
+						"{{provider-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"contractdefinitions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request-Catalog-Consumer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"counterPartyAddress\": \"{{provider-url}}/protocol\",\r\n  \"protocol\": \"dataspace-protocol-http\"\r\n}\r\n\r\n\r\n"
+				},
+				"url": {
+					"raw": "{{consumer-url}}/management/v3/catalog/request",
+					"host": [
+						"{{consumer-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"catalog",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Negotiate-ContractAgreement-Consumer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"ContractRequest\",\r\n  \"counterPartyAddress\": \"{{provider-url}}/protocol\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n  \"policy\": {\r\n    \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\r\n    \"@id\": \"{{contract-offer-id}}\",\r\n    \"@type\": \"Offer\",\r\n    \"assigner\": \"provider\",\r\n    \"target\": \"assetId\"\r\n  }\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{consumer-url}}/management/v3/contractnegotiations",
+					"host": [
+						"{{consumer-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"contractnegotiations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-Contract-Agreement-Consumer",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{consumer-url}}/management/v3/contractnegotiations/{{contract-negotiation-id-consumer}}",
+					"host": [
+						"{{consumer-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"contractnegotiations",
+						"{{contract-negotiation-id-consumer}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-Contract-Agreement-Provider",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{provider-url}}/management/v3/contractnegotiations/{{contract-negotiation-id-provider}}",
+					"host": [
+						"{{provider-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"contractnegotiations",
+						"{{contract-negotiation-id-provider}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer-Process-Push",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"@context\": {\r\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\r\n  },\r\n  \"@type\": \"TransferRequestDto\",\r\n  \"connectorId\": \"provider\",\r\n  \"counterPartyAddress\": \"{{provider-url}}/protocol\",\r\n  \"contractId\": \"{{contract-agreement-id}}\",\r\n  \"protocol\": \"dataspace-protocol-http\",\r\n  \"transferType\": \"HttpData-PUSH\",\r\n  \"dataDestination\": {\r\n    \"type\": \"HttpData\",\r\n    \"baseUrl\": \"{{consumer-url}}/api/consumer/store\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{consumer-url}}/management/v3/transferprocesses",
+					"host": [
+						"{{consumer-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"transferprocesses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-Transfer-Process-Push-Consumer",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{consumer-url}}/management/v3/transferprocesses/{{transfer-process-id-consumer}}",
+					"host": [
+						"{{consumer-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"transferprocesses",
+						"{{transfer-process-id-consumer}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-Transfer-Process-Push-Provider",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{provider-url}}/management/v3/transferprocesses/{{transfer-process-id-provider}}",
+					"host": [
+						"{{provider-url}}"
+					],
+					"path": [
+						"management",
+						"v3",
+						"transferprocesses",
+						"{{transfer-process-id-provider}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
