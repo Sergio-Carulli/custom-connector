@@ -30,3 +30,4 @@ dependencyResolutionManagement {
 
 // My modules
 include(":launchers:connector-postgresql")
+include(":launchers:simple-connector")
