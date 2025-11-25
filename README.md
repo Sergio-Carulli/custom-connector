@@ -8,7 +8,7 @@ Before we can run a connector, we need to build the JAR file.
 Execute this command in project root:
 
 ```bash
-gradlew launchers:connector-postgresql:build
+./gradlew launchers:connector-postgresql:build
 ```
 
 ## 2. Run the connectors
