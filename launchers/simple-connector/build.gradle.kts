@@ -57,7 +57,7 @@ var distZip = tasks.getByName("distZip")
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     mergeServiceFiles()
-    archiveFileName.set("connector-postgresql.jar")
+    archiveFileName.set("simple-connector.jar")
     dependsOn(distTar, distZip)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
